@@ -6,8 +6,8 @@
 </description>
     <link>http://hinnefe2.github.io/</link>
     <atom:link href="http://hinnefe2.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 13 Aug 2015 15:05:11 -0500</pubDate>
-    <lastBuildDate>Thu, 13 Aug 2015 15:05:11 -0500</lastBuildDate>
+    <pubDate>Thu, 13 Aug 2015 15:32:49 -0500</pubDate>
+    <lastBuildDate>Thu, 13 Aug 2015 15:32:49 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -234,7 +234,7 @@ wittman&quot;&gt;Ryan Wittman&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;You can find the ipython notebook for this page &lt;a href=&quot;/notebooks/2015-08-12-ivy-heatmaps.ipynb&quot;&gt;here&lt;/a&gt;,
 the box score data &lt;a href=&quot;/data/2015_box_scores2.csv&quot;&gt;here&lt;/a&gt;
-and the game score date &lt;a href=&quot;/data/2015_game_scores.csv&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+and the game score data &lt;a href=&quot;/data/2015_game_scores.csv&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 12 Aug 2015 00:00:00 -0500</pubDate>
         <link>http://hinnefe2.github.io/python/hoops/2015/08/12/ivy-heatmaps.html</link>
