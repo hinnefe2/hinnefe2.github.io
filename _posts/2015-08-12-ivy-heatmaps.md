@@ -242,3 +242,7 @@ mean). Also, according to this Columbia has three of the four best actual three
 point shooters. Sigh ... I
 miss [Ryan Wittman](http://espn.go.com/mens-college-basketball/player/_/id/32497/ryan-
 wittman). 
+
+You can find the ipython notebook for this page [here]({{ BASE_PATH }}/notebooks/2015-08-12-ivy-heatmaps.ipynb),
+the box score data [here]({{ BASE_PATH }}/data/2015_box_scores2.csv)
+and the game score date [here]({{ BASE_PATH }}/data/2015_game_scores.csv)
