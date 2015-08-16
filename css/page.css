@@ -150,3 +150,10 @@
 	.category-box-sub a:hover,.category-sub-title:hover {
 		padding-left:0;
 	}
+
+
+.center-image
+{
+    margin: 0 auto;
+    display: block;
+}

@@ -308,6 +308,14 @@ li {
   cursor: pointer; }
 
 /**
+ * For centering images
+ * from http://thornelabs.net/2014/11/30/centering-images-with-jekyll-and-markdown.html
+ */
+.center-image {
+  margin: 0 auto;
+  display: block; }
+
+/**
  * Syntax highlighting styles
  */
 .highlight {
