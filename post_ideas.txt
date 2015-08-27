@@ -1,2 +1,0 @@
-heatmaps, normalizing each player by position
-regression for number of wins as function of team avg stats
