@@ -327,7 +327,7 @@ partially) a function of the coach's in-game coaching skill.
 the mean of the distribution changed.
 
 These assumptions contain three parameters: the mean of the over/under
-performance distribution for each coach \\(\mu_\texttt{SD}, \mu_\texttt{BC}\\), and the season
+performance distribution for each coach \\(\mu_{SD}\\), \\(\mu_{BC}\\), and the season
 during which the transition occurred \\(\tau\\). The PyMC code takes the
 assumptions above, and returns probability distributions for each of the three
 parameters based on the data we provide. 
