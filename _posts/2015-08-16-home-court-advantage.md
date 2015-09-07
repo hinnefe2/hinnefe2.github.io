@@ -134,7 +134,7 @@ print('StdDev: ' , ppg.describe()['diff_ppg']['std'])
 At first glance it looks like home court advantage is worth about 5.8 \\(\pm\\)
 4.5 points. However, we're actually 'double counting' the advantage. If we make
 the simplifying assumption that home court advantage is the same for all teams
-and arenas (which it certainly isn't, but it should work to first order), then
+and arenas (which it certainly isn't, but it should work to zeroth order), then
 we can say
 \\[
 \text{home score} = \text{neutral score} + \Delta \\\

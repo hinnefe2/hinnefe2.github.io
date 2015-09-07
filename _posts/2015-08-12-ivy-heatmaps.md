@@ -8,9 +8,9 @@ categories: python hoops
 --- 
 I'm a big Cornell basketball fan. A few years ago (ca. 2007-2010) this was a lot
 of fun. These days not so much; Cornell hasn't finished in the top half of its
-conference since 2010. Part of this is certainly regression to the mean -
+conference since 2010. Part of this is certainly regression to the mean --
 Cornell going to the Sweet Sixteen (like they did in 2010) was probably a once
-in a lifetime kind of thing - but the consensus among the fans is that the
+in a lifetime kind of thing -- but the consensus among the fans is that the
 departure of the old coach, and more to the point, the presence of the new
 coach, are a big factors in the continuing mediocrity of Cornell basketball.
 
@@ -108,8 +108,8 @@ ivy_boxes = ivy_boxes.replace([np.inf, -np.inf],0)
 {% endhighlight %}
 
 Now that we have a subset of the data that only covers the Ivy conference games,
-time to aggregate and normalize each player's statistics with some quick pandas-
-fu. First we normalize by average minutes played, then we compute the 
+time to aggregate and normalize each player's statistics with some quick pandas-fu. 
+First we normalize by average minutes played, then we compute the 
 [z score](https://en.wikipedia.org/wiki/Standard_score). At this point,
 each entry in a player's statline represents the number of standard deviations
 his stat is above or below the mean of that stat for the population as a whole
@@ -239,7 +239,7 @@ happened to make a lot of them. (Remember, we took the
 [z score](https://en.wikipedia.org/wiki/Standard_score) for each stat,
 so each entry is actually the number of standard deviations above or below the
 mean). Also, according to this Columbia has three of the four best actual three
-point shooters. Sigh ... I
+point shooters in the league. Sigh ... I
 miss [Ryan Wittman](http://espn.go.com/mens-college-basketball/player/_/id/32497/ryan-
 wittman). 
 
