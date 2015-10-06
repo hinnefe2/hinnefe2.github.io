@@ -435,8 +435,7 @@ print(final_list.sort('rank')['rank'].head(15))
 
  
 And in case you were wondering, Cornell comes in at
-[161](http://cornellsun.com/blog/2005/02/27/big-red-ambition-161-things-every-
-cornellian-should-do/) (no joke). 
+[161](http://cornellalumnimagazine.com/index.php?option=com_content&task=view&id=2078) (no joke). 
 
 You can find the ipython notebook for this page [here]({{ BASE_PATH }}/notebooks/2015-08-16-home-court-advantage.ipynb),
 the box score data [here]({{ BASE_PATH }}/data/box_scores.tar.gz)
