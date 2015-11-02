@@ -373,7 +373,8 @@ avg_ranks = all_ranks.groupby(level=0, axis=1).mean()
 sns.heatmap(avg_ranks.corr(method='spearman'), annot=True, vmin=0, vmax=1);
 {% endhighlight %}
 
- 
+<a name="recap"></a>
+
 ![png]({{ BASE_PATH }}/images/2015-08-16-home-court-advantage_21_0.png){: .center-image }
 
  
