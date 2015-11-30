@@ -550,8 +550,18 @@ A few things are immediately apparent:
 have strong ties to Philip Kim.
 - A few other groups work largely independently.
 
-This is exactly the kind of contextual information that I want to know but that
-is hard to acquire directly.
+As with the keyword analysis above, now that I have some contextual information I can 
+keep track of developments in the field much more efficiently. First, I know which other authors
+are doing work that is particularly relevant to my own, so I can carefully keep track of their 
+publications. Second, I have a better feel for the relationships between different researchers working
+in my area, so I can be more strategic about looking for collaborators (and scoping out potential competitors).
+Finally, the raw size of each cluster helps me develop an intuitive feel for the relative prominence
+of different heavyweights in the field. Best of all, I can easily gain the 
+same level of intuition about my next project by changing one or two lines of code. 
+Taken together, these factors leave me much better positioned 
+to be a productive, informed, and successful grad student. Now to build a time machine and explain 
+all this to my first-year self ...
 
-The Jupyter notebook for this post is [here]({{ BASE_PATH }}/notebooks/marchmeeting.ipynb) and
-the data is [here]({{ BASE_PATH }}/data/marchmeeting.tar.gz) 
+If you'd like to play around with the data or the analysis yourself, the Jupyter notebook for this post 
+is [here]({{ BASE_PATH }}/notebooks/marchmeeting.ipynb) and
+the data is [here]({{ BASE_PATH }}/data/marchmeeting.tar.gz).
