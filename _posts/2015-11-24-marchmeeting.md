@@ -264,7 +264,7 @@ the most important papers on the topic. This leaves me much better informed
 about the state of the field than reading a smattering of papers from the top
 journals.
 
-So far we've addresssed the broad outlines of the field, but as a grad student
+So far we've addressed the broad outlines of the field, but as a grad student
 I'm more often concerned with the small subset of the field that's directly
 related to my own research. Next let's identify those researchers whose work is
 most similar to my own. 
