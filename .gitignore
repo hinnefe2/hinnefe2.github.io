@@ -1,3 +1,6 @@
 _site*
+.sass-cache*
 nohup.out
 post_ideas.txt
+Gemfile
+Gemfile.lock
