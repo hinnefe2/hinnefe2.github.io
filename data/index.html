@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <script type="text/javascript" src="d3.min.js"></script>
+
+        <script type="text/javascript">
+            
+            var canvas_w = 250;
+            var canvas_h = 500;
+            var canvas_margin = 25;
+
+            var nut_h = 20;
+            var nut_w = canvas_w - 2*canvas_margin
+            var nut_offset = 30;
+
+            var halfstep_spacing = (canvas_h - 2*canvas_margin - nut_offset) / 7;
+
+            var note_r = 20;
+
+            var note_list_sharp = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#" ]
+            var note_list_flat =  ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab" ]
+
+            function range_modulo(mod, start, end) {
+                var foo = [];
+                for (var i = start; i <= end; i++) {
+                    foo.push(i % mod);
+                }
+                return foo;
+            }
+
+
+            function init() {
+                createCanvas();
+                drawNeck(4);
+                setTuning([10,5,0,7]);
+            }
+
+
+            function createCanvas() {
+                canvas_svg = d3.select("body").select("#canvas").append("svg")
+                                                               .attr("width", canvas_w)
+                                                               .attr("height", canvas_h);
+                return canvas_svg
+            }
+            
+
+            function drawNeck(n_strings) {
+                canvas_svg = d3.select("body").select("#canvas").select("svg");
+
+                static_g = canvas_svg.append("g").attr("id","svg_static");
+
+                // draw the nut at the top of the neck
+                static_g.append("line")
+                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
+                          .attr("y1", canvas_margin + nut_offset).attr("y2", canvas_margin + nut_offset)
+                          .attr("stroke-width", nut_h)
+                          .attr("stroke", "black");
+
+                // draw the finger position guides
+                static_g.append("line")
+                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
+                          .attr("y1", canvas_margin + nut_offset + 2*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 2*halfstep_spacing)
+                          .attr("stroke-width", 3)
+                          .attr("stroke-dasharray", 10,10)
+                          .attr("stroke", "grey");
+                static_g.append("line")
+                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
+                          .attr("y1", canvas_margin + nut_offset + 4*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 4*halfstep_spacing)
+                          .attr("stroke-width", 3)
+                          .attr("stroke-dasharray", 10,10)
+                          .attr("stroke", "grey");
+                static_g.append("line")
+                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
+                          .attr("y1", canvas_margin + nut_offset + 5*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 5*halfstep_spacing)
+                          .attr("stroke-width", 3)
+                          .attr("stroke-dasharray", 10,10)
+                          .attr("stroke", "grey");
+
+                // draw the strings
+                strings_g = static_g.append("g").attr("id","svg_static_strings");
+                for (var i = 0; i < n_strings; i++) {
+
+                    // space the strings equally, w/ 1/2 spacing at outside edges
+                    var str_offset = nut_w / n_strings * ( 1/2 + i);
+
+                    strings_g.append("line")
+                              .attr("x1", canvas_margin + str_offset).attr("x2", canvas_margin + str_offset)
+                              .attr("y1", canvas_margin).attr("y2", canvas_h - canvas_margin)
+                              .attr("stroke-width", 5-i/2)
+                              .attr("stroke", "black");
+                }
+
+                return canvas_svg
+            }
+
+
+            // specify the tuning of each string. 
+            // A     : 0      D# Eb : 6 
+            // A# Bb : 1      E     : 7
+            // B     : 2      F     : 8
+            // C     : 3      F# Gb : 9
+            // C# Db : 4      G     : 10
+            // D     : 5      G# Ab : 11
+            function setTuning(tuning_list) {
+                d3.select("#svg_static_strings").selectAll("line").data(tuning_list)
+            }
+
+
+            function drawNotes(root, sequence, sharpflat) {
+
+                notes = sequence.map(function(d) { return (d + root) % 12 });
+
+                canvas_svg = d3.select("body").select("#canvas").select("svg");
+
+                // create the notes group if it hasn't been created yet
+                if (canvas_svg.select("#svg_notes").empty()) {
+                    canvas_svg.append("g").attr("id","svg_notes")
+                                          .attr("fill", "grey");
+                }
+                notes_g = canvas_svg.select("#svg_notes");
+
+                // remove any previously existing note circles
+                notes_g.selectAll("circle").remove()
+                notes_g.selectAll("text").remove()
+
+                // draw the notes 
+                // TODO - refactor this to be more idiomatic with d3 / javascript
+                strings = d3.select("#svg_static_strings").selectAll("line")[0];
+                for (var i = 0; i < strings.length; i++) {
+
+                    this_string = strings[i];
+                    this_x = this_string.x1.baseVal.value;
+                    this_open_note = this_string.__data__;
+
+                    // get list of notes available on this string
+                    this_string_notes = range_modulo(12, this_open_note, this_open_note + 7);
+                    // filter out those not in the desired sequence
+                    to_draw = this_string_notes.slice();
+                    to_draw = to_draw.filter(function(n) { return notes.indexOf(n) != -1 });
+
+                    for (var j = 0; j < to_draw.length; j++) {
+
+                        this_note = to_draw[j];
+                        finger_pos = this_string_notes.indexOf(this_note);
+                        this_y = canvas_margin + nut_offset + halfstep_spacing*finger_pos;
+
+                        notes_g.append("circle").attr("r", note_r)
+                                                .attr("cx", this_x)
+                                                .attr("cy", this_y)
+                                                .attr("stroke", "black")
+                                                .attr("stroke-width", 2);
+
+                        // label notes with either sharps or flats
+                        if (sharpflat == "sharp") {
+                            note_list = note_list_sharp;
+                        } else {
+                            note_list = note_list_flat;
+                        }
+                        
+                        notes_g.append("text").text(note_list[this_note])
+                                                .attr("x", this_x)
+                                                .attr("y", this_y)
+                                                .attr("text-anchor", "middle")
+                                                .attr("dominant-baseline", "middle")
+                                                .attr("font-family", "arial")
+                                                .attr("fill", "black")
+                                                .attr("font-size", "20");
+
+                    }
+                }
+            }
+
+
+            function updateChart() {
+
+                var root = Number(d3.select("#root-select")[0][0].value);
+                var sequence_str = d3.select("#sequence-select")[0][0].value;
+                var sequence_arr = sequence_str.split(',').map(Number);
+                var sharpflat = d3.select("#sharpflat-select")[0][0].value;
+
+                drawNotes(root, sequence_arr, sharpflat);
+            }
+
+
+        </script>
+    </head>
+
+    <body onload="init()">
+
+        <select id="root-select" onchange=updateChart()>
+            <option value=0>A</option>
+            <option value=1>A&#9839 B&#9837</option>
+            <option value=2>B</option>
+            <option value=3>C</option>
+            <option value=4>C&#9839 D&#9837</option>
+            <option value=5>D</option>
+            <option value=6>D&#9839 E&#9837</option>
+            <option value=7>E</option>
+            <option value=8>F</option>
+            <option value=9>F&#9839 G&#9837</option>
+            <option value=10>G</option>
+            <option value=11>G&#9839 A&#9837</option>
+        </select>
+
+        <select id="sequence-select" onchange=updateChart()>
+            <option value=0,4,7>chord - major</option>
+            <option value=0,3,7>chord - minor</option>
+            <option value=0,4,7,10>chord - dom7</option>
+        </select>
+
+        <select id="sharpflat-select" onchange=updateChart()>
+            <option value="sharp">Sharps</option>
+            <option value="flat">Flats</option>
+        </select>
+
+        <div id="canvas" />
+    </body>
+
+</html>
