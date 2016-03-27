@@ -1,6 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+
+            body {
+                text-align: center;
+                min-width: 250px;
+            }
+
+            svg {
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+
+            line {
+                stroke: black;
+            }
+
+            line.finger-guide {
+                stroke-width: 3;
+                stroke-dasharray: 10,10;
+                stroke: grey;
+            }
+
+            circle.note {
+                stroke: black;
+                stroke-width: 2;
+            }
+
+            circle.degree0 { fill: #00D73D }
+            circle.degree3 { fill: #B7D7C0 }
+            circle.degree4 { fill: #B7D7C0 }
+            circle.degree7 { fill: #6CD78A }
+
+            text {
+                text-anchor: middle;
+				dominant-baseline: middle;
+				font-family: arial;
+				fill: black;
+				font-size: 40;
+            }
+
+            #svg_notes {
+                fill: lightgrey;
+            }
+
+
+        </style>
 
         <script type="text/javascript" src="d3.min.js"></script>
 
@@ -32,53 +79,52 @@
 
             function init() {
                 createCanvas();
-                drawNeck(4);
+                drawNeck(4, [2,4,5]);
                 setTuning([10,5,0,7]);
             }
 
 
             function createCanvas() {
-                canvas_svg = d3.select("body").select("#canvas").append("svg")
-                                                               .attr("width", canvas_w)
-                                                               .attr("height", canvas_h);
+                // create the svg
+                canvas_svg = d3.select("body").select("#canvas")
+                                              .append("svg")
+                                              .attr("width", canvas_w)
+                                              .attr("height", canvas_h);
+
+                // create some groups to hold elements later
+                static_g = canvas_svg.append("g").attr("id","svg_static");
+                strings_g = static_g.append("g").attr("id","svg_static_strings");
+                guides_g = static_g.append("g").attr("id","svg_static_guides");
+
+                notes_g = canvas_svg.append("g").attr("id","svg_notes")
+
                 return canvas_svg
             }
             
 
-            function drawNeck(n_strings) {
-                canvas_svg = d3.select("body").select("#canvas").select("svg");
+            function drawNeck(n_strings, guide_sequence) {
 
-                static_g = canvas_svg.append("g").attr("id","svg_static");
+                guides_g = d3.select("#svg_static_guides");
 
                 // draw the nut at the top of the neck
-                static_g.append("line")
+                guides_g.append("line")
                           .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
                           .attr("y1", canvas_margin + nut_offset).attr("y2", canvas_margin + nut_offset)
                           .attr("stroke-width", nut_h)
-                          .attr("stroke", "black");
 
                 // draw the finger position guides
-                static_g.append("line")
-                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
-                          .attr("y1", canvas_margin + nut_offset + 2*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 2*halfstep_spacing)
-                          .attr("stroke-width", 3)
-                          .attr("stroke-dasharray", 10,10)
-                          .attr("stroke", "grey");
-                static_g.append("line")
-                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
-                          .attr("y1", canvas_margin + nut_offset + 4*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 4*halfstep_spacing)
-                          .attr("stroke-width", 3)
-                          .attr("stroke-dasharray", 10,10)
-                          .attr("stroke", "grey");
-                static_g.append("line")
-                          .attr("x1", canvas_margin).attr("x2", canvas_margin + nut_w)
-                          .attr("y1", canvas_margin + nut_offset + 5*halfstep_spacing).attr("y2", canvas_margin + nut_offset + 5*halfstep_spacing)
-                          .attr("stroke-width", 3)
-                          .attr("stroke-dasharray", 10,10)
-                          .attr("stroke", "grey");
+                function drawGuide(fret) {
+	                guides_g.append("line")
+	                          .attr("x1", canvas_margin)
+	                          .attr("x2", canvas_margin + nut_w)
+	                          .attr("y1", canvas_margin + nut_offset + fret*halfstep_spacing)
+	                          .attr("y2", canvas_margin + nut_offset + fret*halfstep_spacing)
+	                          .attr("class", "finger-guide");
+                }
+
+                guide_sequence.forEach(drawGuide)
 
                 // draw the strings
-                strings_g = static_g.append("g").attr("id","svg_static_strings");
                 for (var i = 0; i < n_strings; i++) {
 
                     // space the strings equally, w/ 1/2 spacing at outside edges
@@ -88,7 +134,6 @@
                               .attr("x1", canvas_margin + str_offset).attr("x2", canvas_margin + str_offset)
                               .attr("y1", canvas_margin).attr("y2", canvas_h - canvas_margin)
                               .attr("stroke-width", 5-i/2)
-                              .attr("stroke", "black");
                 }
 
                 return canvas_svg
@@ -109,18 +154,14 @@
 
             function drawNotes(root, sequence, sharpflat) {
 
+                // convert the abstract sequence (ie maj = [0,4,7]) into a set of
+                // notes above a particular root, ie G=10 -> Gmaj = [10, 2, 5]
                 notes = sequence.map(function(d) { return (d + root) % 12 });
 
                 canvas_svg = d3.select("body").select("#canvas").select("svg");
-
-                // create the notes group if it hasn't been created yet
-                if (canvas_svg.select("#svg_notes").empty()) {
-                    canvas_svg.append("g").attr("id","svg_notes")
-                                          .attr("fill", "grey");
-                }
                 notes_g = canvas_svg.select("#svg_notes");
 
-                // remove any previously existing note circles
+                // remove any previously existing note circles / text
                 notes_g.selectAll("circle").remove()
                 notes_g.selectAll("text").remove()
 
@@ -145,11 +186,12 @@
                         finger_pos = this_string_notes.indexOf(this_note);
                         this_y = canvas_margin + nut_offset + halfstep_spacing*finger_pos;
 
+                        this_interval = (to_draw[j] - root + 12) % 12
+
                         notes_g.append("circle").attr("r", note_r)
                                                 .attr("cx", this_x)
                                                 .attr("cy", this_y)
-                                                .attr("stroke", "black")
-                                                .attr("stroke-width", 2);
+                                                .attr("class", "note degree"+this_interval)
 
                         // label notes with either sharps or flats
                         if (sharpflat == "sharp") {
@@ -160,12 +202,7 @@
                         
                         notes_g.append("text").text(note_list[this_note])
                                                 .attr("x", this_x)
-                                                .attr("y", this_y)
-                                                .attr("text-anchor", "middle")
-                                                .attr("dominant-baseline", "middle")
-                                                .attr("font-family", "arial")
-                                                .attr("fill", "black")
-                                                .attr("font-size", "20");
+                                                .attr("y", this_y);
 
                     }
                 }
@@ -187,6 +224,7 @@
     </head>
 
     <body onload="init()">
+        <div id="page-wrap">
 
         <select id="root-select" onchange=updateChart()>
             <option value=0>A</option>
@@ -207,6 +245,10 @@
             <option value=0,4,7>chord - major</option>
             <option value=0,3,7>chord - minor</option>
             <option value=0,4,7,10>chord - dom7</option>
+            <option value=0,3,7,9>chord - min6</option>
+            <option value=0,2,4,5,7,9,11>scale - major</option>
+            <option value=0,3,5,6,7,10>scale - blues</option>
+            <option value=0,2,3,4,7,9>scale - bluegrass</option>
         </select>
 
         <select id="sharpflat-select" onchange=updateChart()>
@@ -215,6 +257,7 @@
         </select>
 
         <div id="canvas" />
+        </div>
     </body>
 
 </html>
