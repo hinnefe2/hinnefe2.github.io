@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "An alethiometer for the modern age"
+title: "An Alethiometer for the Modern Age"
 tags:
     - python
     - tools
@@ -91,8 +91,8 @@ er.github.io/blob/master/res/emoji/annotations.txt).
 
 We can use Scikit-learn's [CountVectorizor](http://scikit-
 learn.org/stable/modules/feature_extraction.html#common-vectorizer-usage) to
-vectorize each of the emoji descriptions. This gives us an $N_\text{emoji}$ by
-$N_\text{words}$ matrix, where each column is associated with one word (among
+vectorize each of the emoji descriptions. This gives us an \\(N_\text{emoji}\\) by
+\\(N_\text{words}\\) matrix, where each column is associated with one word (among
 all the words that show up in the descriptions) and each row is associated with
 an emoji. To avoid giving too much emphasis to common words we can run this
 matrix through scikit-learn's [tf-
@@ -243,7 +243,7 @@ emoji_vecs.dot(word_vector.transpose()).sort_values(by=word, ascending=False).he
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>word</th>
+      <th></th>
       <th>apocalypse</th>
     </tr>
     <tr>
