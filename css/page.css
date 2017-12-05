@@ -1,3 +1,19 @@
+.dataframe *  {
+	border-color: #000000 !important;
+	border-collapse: collapse;
+	border-width:0;
+}
+
+table.dataframe {
+    margin-left:auto; 
+    margin-right:auto;
+    border-width:0;
+}
+
+.dataframe th {background: #FFFFFF;}
+.dataframe td {text-align: right; min-width:5em;}
+
+
 .year {
 	color:rgb(0,180,0);
 	margin-left:35px;
