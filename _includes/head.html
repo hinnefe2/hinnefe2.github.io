@@ -7,7 +7,6 @@
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ "/css/page.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
   <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
@@ -17,6 +16,20 @@
   
   <style>
 
+.dataframe *  {
+	border-color: #000000 !important;
+	border-collapse: collapse;
+	border-width:0;
+}
+
+table.dataframe {
+    margin-left:auto; 
+    margin-right:auto;
+    border-width:0;
+}
+
+.dataframe th {background: #FFFFFF;}
+.dataframe td {text-align: right; min-width:5em;}
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
